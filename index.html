@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bing Maps API Example</title>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=YOUR_BING_MAPS_API_KEY'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+    <p id="selectedPoints"></p>
+
+    <script>
+        var map;
+        var selectedPoints = [];
+
+        function loadMapScenario() {
+            map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
+                credentials: 'Ag9sqLf2xi_9Xi_vttHxVaDEUhzAcw4Lf9WUXXdaiCrZkXAMfJElZoWXS70e-7-5',
+                center: new Microsoft.Maps.Location(0, 0),
+                zoom: 2
+            });
+
+            Microsoft.Maps.Events.addHandler(map, 'click', function (e) {
+                var point = new Microsoft.Maps.Point(e.getX(), e.getY());
+                var loc = e.target.tryPixelToLocation(point);
+
+                selectedPoints.push(loc);
+
+                // Ekrana seçilen noktaları yazdır
+                document.getElementById('selectedPoints').innerHTML = "Seçilen Noktalar: " + JSON.stringify(selectedPoints);
+            });
+        }
+
+        // Harita yüklendikten sonra işlemleri gerçekleştir
+        Microsoft.Maps.loadModule('Microsoft.Maps.AutoSuggest', { callback: loadMapScenario });
+    </script>
+</body>
+</html>
